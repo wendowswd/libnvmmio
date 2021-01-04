@@ -112,7 +112,7 @@ static inline void init_base_address(void) {
       handle_error("mmap for base_mmap_addr");
     }
 
-    base_mmap_addr = (void *)(addr - (1UL << 38)); /* 256 GB */
+    base_mmap_addr = (void *)(addr - (1UL << 37)); /* 256 GB */
     base_mmap_addr = ALIGN_TABLE((base_mmap_addr + TABLE_SIZE));
     munmap(addr, PAGE_SIZE);
   }

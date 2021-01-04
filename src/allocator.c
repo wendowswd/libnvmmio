@@ -778,7 +778,7 @@ void init_env(void) {
   libnvmmio_pid = getpid();
 	
 	sprintf(dirpath, DIR_PATH, pmem_path, libnvmmio_pid);
-	s = mkdir(dirpath, 0700);
+	s = mkdir(dirpath, 0777);
 	if (__glibc_unlikely(s != 0)) {
 		handle_error("mkdir");
 	}
