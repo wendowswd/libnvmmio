@@ -128,7 +128,7 @@ static void *map_logfile(const char *path, size_t len) {
     fd = -1;
     flags = MAP_ANONYMOUS | MAP_SHARED;
   } else {
-    fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0644);
+    fd = open(path, O_CREAT | O_TRUNC | O_RDWR, 0777);
     if (__glibc_unlikely(fd == -1)) {
       handle_error("open");
     }
