@@ -786,8 +786,8 @@ void init_env(void) {
 
 void init_global_freelist(void) {
   create_global_tables_list(MAX_FREE_NODES * 10);
-  create_global_entries_list(LOG_FILE_SIZE * 2);
-  create_global_data_list(LOG_FILE_SIZE);
+  create_global_entries_list(LOG_FILE_SIZE * 32);
+  create_global_data_list(LOG_FILE_SIZE * 16);
   create_global_umas_list();
 }
 
