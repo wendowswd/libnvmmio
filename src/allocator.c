@@ -608,22 +608,27 @@ void free_uma(uma_t *uma) {
 static void *alloc_log_data(log_size_t log_size) {
   list_node_t *node;
   void *data;
+  unsigned long count;
 
-  if (local_data_list[log_size] == NULL) {
-    alloc_local_data_list(log_size);
+  pthread_mutex_lock(&global_data_list[log_size]->mutex);
+
+  count = global_data_list[log_size]->count;
+
+  if (__glibc_unlikely(count == 0)) {
+    handle_error("global_data_list does not have anything");
   }
 
-  if (local_data_list[log_size]->count == 0) {
-    fill_local_data_list(log_size);
-  }
+  node = global_data_list[log_size]->head;
+  global_data_list[log_size]->head = node->next;
+  node->next = NULL;
+  global_data_list[log_size]->count -= 1;
 
-  node = local_data_list[log_size]->head;
-  local_data_list[log_size]->head = node->next;
-  local_data_list[log_size]->count -= 1;
+  pthread_mutex_unlock(&global_data_list[log_size]->mutex);
 
   if (__glibc_unlikely(node->ptr == NULL)) {
     handle_error("node->ptr == NULL");
   }
+
 
   data = node->ptr;
   free_node(node);
